@@ -1,0 +1,7 @@
+1. Flytta Point från CarController till ImagePosition och byta ut Point på vägen till (int x, int y).
+Flytta koden som beskriver knapparna i CarView till CarController och ta bort instansvariablen av CarController i CarView.
+
+2. Skapa en ny klass, CarFactory, som skapar instanser av alla bilar och har funktioner som kan returnera bilarna-
+     samt specifika typer av bilar (Turbo och Lift).
+
+3. Skapa en ny class, CarSim, som tar funktionerna TimeListener och main från CarController för att köra programmet.
