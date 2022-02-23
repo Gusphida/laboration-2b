@@ -4,4 +4,4 @@ Flytta koden som beskriver knapparna i CarView till CarController och ta bort in
 2. Skapa en ny klass, CarFactory, som skapar instanser av alla bilar och har funktioner som kan returnera bilarna-
      samt specifika typer av bilar (Turbo och Lift).
 
-3. Skapa en ny class, CarSim, som tar funktionerna TimeListener och main från CarController för att köra programmet.
+3. Skapa en ny class, CarModel, som tar funktionerna TimeListener och main från CarController för att köra programmet.

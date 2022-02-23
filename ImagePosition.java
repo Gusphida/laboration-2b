@@ -3,18 +3,24 @@ import java.awt.*;
 
 public class ImagePosition {
     private BufferedImage image;
-    private Point position;
+    private int x;
+    private int y;
 
-    public ImagePosition(BufferedImage image, Point position) {
+    public ImagePosition(BufferedImage image, int x, int y) {
         this.image = image;
-        this.position = position;
+        this.x = x;
+        this.y = y;
     }
 
     public BufferedImage getImage() {
         return image;
     }
 
-    public Point getPosition() {
-        return position;
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
     }
 }

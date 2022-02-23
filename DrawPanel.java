@@ -12,9 +12,9 @@ public class DrawPanel extends JPanel{
 
     ArrayList<ImagePosition> cars = new ArrayList<>();
 
-    void moveit(Point p, String modelName){
+    void moveit(int x,int y, String modelName){
         try {
-            ImagePosition img = new ImagePosition(ImageIO.read(DrawPanel.class.getResourceAsStream("pics/" + modelName + ".jpg")), p);
+            ImagePosition img = new ImagePosition(ImageIO.read(DrawPanel.class.getResourceAsStream("pics/" + modelName + ".jpg")), x, y);
             cars.add(img);
         } catch (IOException ex) {
             ex.printStackTrace();
@@ -30,7 +30,7 @@ public class DrawPanel extends JPanel{
 
     protected void drawCars(Graphics g) {
         for (ImagePosition car : cars) {
-            g.drawImage(car.getImage(), car.getPosition().x, car.getPosition().y, null);
+            g.drawImage(car.getImage(), car.getX(), car.getY(), null);
         }
         cars.clear();
     }

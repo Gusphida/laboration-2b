@@ -1,8 +1,9 @@
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 
 /*
 * This class represents the Controller part in the MVC pattern.
@@ -12,113 +13,87 @@ import java.util.ArrayList;
 
 public class CarController {
     // member fields:
+    CarModel cm;
 
-    // The delay (ms) corresponds to 20 updates a sec (hz)
-    private final int delay = 50;
-    // The timer is started with an listener (see below) that executes the statements
-    // each step between delays.
-    private Timer timer = new Timer(delay, new TimerListener());
+    JPanel controlPanel = new JPanel();
 
-    // The frame that represents this instance View of the MVC pattern
-    CarView frame;
-    // A list of cars, modify if needed
-    ArrayList<ACar> cars = new ArrayList<>();
+    JPanel gasPanel = new JPanel();
+    JSpinner gasSpinner = new JSpinner();
+    int gbAmount = 0;
+    JLabel gasLabel = new JLabel("Amount");
 
-    //methods:
+    JButton gasButton = new JButton("Gas");
+    JButton brakeButton = new JButton("Brake");
+    JButton turboOnButton = new JButton("Turbo on");
+    JButton turboOffButton = new JButton("Turbo off");
+    JButton liftBedButton = new JButton("Lift Bed");
+    JButton lowerBedButton = new JButton("Lower Lift Bed");
 
-    public static void main(String[] args) {
-        // Instance of this class
-        CarController cc = new CarController();
+    JButton startButton = new JButton("Start all cars");
+    JButton stopButton = new JButton("Stop all cars");
+    JButton addCarButton = new JButton("Add car");
+    JButton removeCarButton = new JButton("Remove car");
 
-        cc.cars.add(new Volvo240());
-        cc.cars.add(new Scania(100));
-        cc.cars.add(new Saab95(200));
-
-        // Start a new view and send a reference of self
-        cc.frame = new CarView("CarSim 1.0", cc);
-        cc.frame.setResizable(false);
-
-        // Start the timer
-        cc.timer.start();
+    public CarController(CarModel cm) {
+        this.cm = cm;
+        initComponents();
     }
 
-    /* Each step the TimerListener moves all the cars in the list and tells the
-    * view to update its images. Change this method to your needs.
-    * */
-    private class TimerListener implements ActionListener {
-        public void actionPerformed(ActionEvent e) {
-            for (ACar car : cars) {
-                if (car.position.getY() >= 600 - 100 || car.position.getY() < 0) {
-                    car.turnLeft();
-                    car.turnLeft();
-                }
-                car.move();
-                int x = (int) Math.round(car.position.getX());
-                int y = (int) Math.round(car.position.getY());
-                frame.drawPanel.moveit(new Point(x, y), car.modelName);
-                // repaint() calls the paintComponent method of the panel
-                frame.drawPanel.repaint();
+    public void initComponents(){
+        SpinnerModel spinnerModel =
+                new SpinnerNumberModel(0, //initial value
+                        0, //min
+                        100, //max
+                        1);//step
+        gasSpinner = new JSpinner(spinnerModel);
+        gasSpinner.addChangeListener(new ChangeListener() {
+            public void stateChanged(ChangeEvent e) {
+                gbAmount = (int) ((JSpinner)e.getSource()).getValue();
             }
-        }
-    }
+        });
 
-    // Calls the gas method for each car once
-    void gas(int amount) {
-        double gas = ((double) amount) / 100;
-        for (ACar car : cars) {
-            car.gas(gas);
-        }
-    }
+        gasPanel.setLayout(new BorderLayout());
+        gasPanel.add(gasLabel, BorderLayout.PAGE_START);
+        gasPanel.add(gasSpinner, BorderLayout.PAGE_END);
 
-    // Calls the brake method for each car once
-    void brake(int amount) {
-        double brake = ((double) amount) / 100;
-        for (ACar car : cars) {
-            car.brake(brake);
-        }
-    }
+        controlPanel.setLayout(new GridLayout(2,4));
 
-    void startEngine(){
-        for (ACar car : cars){
-            car.startEngine();
-        }
-    }
+        controlPanel.add(gasButton, 0);
+        controlPanel.add(turboOnButton, 1);
+        controlPanel.add(liftBedButton, 2);
+        controlPanel.add(addCarButton, 3);
+        controlPanel.add(brakeButton, 4);
+        controlPanel.add(turboOffButton, 5);
+        controlPanel.add(lowerBedButton, 6);
+        controlPanel.add(removeCarButton, 7);
+        controlPanel.setPreferredSize(new Dimension((CarView.X/2)+4, 200));
+        controlPanel.setBackground(Color.CYAN);
 
-    void stopEngine(){
-        for (ACar car : cars){
-            car.stopEngine();
-        }
-    }
 
-    void setTurboOn(){
-        for (ACar car : cars) {
-            if (car instanceof Saab95) {
-                ((Saab95) car).setTurboOn();
+        startButton.setBackground(Color.blue);
+        startButton.setForeground(Color.green);
+        startButton.setPreferredSize(new Dimension(CarView.X/5-15,200));
+
+
+        stopButton.setBackground(Color.red);
+        stopButton.setForeground(Color.black);
+        stopButton.setPreferredSize(new Dimension(CarView.X/5-15,200));
+
+        // This actionListener is for the gas button only
+        gasButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                cm.gas(gbAmount);
             }
-        }
-    }
-
-    void setTurboOff(){
-        for (ACar car : cars) {
-            if (car instanceof Saab95) {
-                ((Saab95) car).setTurboOff();
-            }
-        }
-    }
-
-    void raiseAngle(){
-        for (ACar car : cars) {
-            if (car instanceof Scania) {
-                ((Scania) car).raiseAngle(10);
-            }
-        }
-    }
-
-    void lowerAngle(){
-        for (ACar car : cars) {
-            if (car instanceof Scania) {
-                ((Scania) car).lowerAngle(10);
-            }
-        }
+        });
+        brakeButton.addActionListener(brake -> cm.brake(gbAmount));
+        turboOnButton.addActionListener(turboOn -> cm.setTurboOn());
+        turboOffButton.addActionListener(turboOff -> cm.setTurboOff());
+        startButton.addActionListener(startEngine -> cm.startEngine());
+        stopButton.addActionListener(stopEngine -> cm.stopEngine());
+        lowerBedButton.addActionListener(lowerAngle -> cm.lowerAngle());
+        liftBedButton.addActionListener(raiseAngle -> cm.raiseAngle());
+        addCarButton.addActionListener(addCar -> cm.addCar());
+        removeCarButton.addActionListener(removeCar -> cm.removeCar());
     }
 }
