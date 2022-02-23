@@ -1,5 +1,7 @@
+package cars;
+
 /**
- * The Movable Interface declares general functions for movable objects
+ * The cars.Movable Interface declares general functions for movable objects
 **/
 public interface Movable {
     void move();

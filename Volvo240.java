@@ -1,14 +1,16 @@
+package cars;
+
 import java.awt.*;
 
 /**
- * The Volvo240 class introduces a car with specific values
+ * The cars.Volvo240 class introduces a car with specific values
  **/
 
 public class Volvo240 extends ACar {
     private final static double trimFactor = 1.25;
 
     /**
-     * Default values for a Volvo240 car
+     * Default values for a cars.Volvo240 car
      */
     public Volvo240(){
         nrDoors = 4;

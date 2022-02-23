@@ -1,7 +1,9 @@
+package cars;
+
 import java.awt.*;
 
 /**
- * The ACar program implements the groundwork for creating car classes
+ * The cars.ACar program implements the groundwork for creating car classes
  *
  * @Author Grupp 5: Philip Dahlgren, Ahmad Rasoli, Mona Chabokdavan
  * @since 24-01-2022
@@ -14,8 +16,8 @@ public abstract class ACar implements Movable {
         RIGHT, LEFT, UP, DOWN
     }
 
-    protected Direction direction = Direction.UP;
-    protected Point.Double position = new Point.Double(); //default point for the car, x=0,y=0
+    public Direction direction = Direction.UP;
+    public Point.Double position = new Point.Double(); //default point for the car, x=0,y=0
 
 
     public int nrDoors; // Number of doors on the car

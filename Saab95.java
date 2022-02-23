@@ -1,20 +1,20 @@
+package cars;
+
 import java.awt.*;
 
 /**
- * The Saab95 class introduces a car with specific values
+ * The cars.Saab95 class introduces a car with specific values
  **/
 
-public class Saab95 extends ACar {
-    private boolean turboOn;
+public class Saab95 extends TurboCar {
 
     /**
-     * Default values for a Saab95 car
+     * Default values for a cars.Saab95 car
      */
     public Saab95() {
         nrDoors = 2;
         color = Color.red;
         enginePower = 125;
-        turboOn = false;
         modelName = "Saab95";
         transportable = true;
     }
@@ -23,27 +23,11 @@ public class Saab95 extends ACar {
         nrDoors = 2;
         color = Color.red;
         enginePower = 125;
-        turboOn = false;
         modelName = "Saab95";
         transportable = true;
         this.position.x = x;
     }
 
-    /**
-     * Sets the turbo on
-     */
-    public void setTurboOn() {
-        //Sets turboOn to true
-        turboOn = true;
-    }
-
-    /**
-     * Turns the turbo off
-     */
-    public void setTurboOff() {
-        //Sets turboOn to false
-        turboOn = false;
-    }
 
     /**
      * Calculates the cars speed factor
