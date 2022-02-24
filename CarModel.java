@@ -13,7 +13,8 @@ public class CarModel implements IObservable {
     ArrayList<LiftCar> liftCars = cars.getAllLift();
     // The delay (ms) corresponds to 20 updates a sec (hz)
     private final int delay = 50;
-    // The timer is started with an listener (see below) that executes the statements
+    private int timeLastChecked = 0;
+    // The timer is started with a listener (see below) that executes the statements
     // each step between delays.
     public Timer timer = new Timer(delay, new TimerListener());
 
@@ -30,7 +31,11 @@ public class CarModel implements IObservable {
                     car.turnLeft();
                 }
                 car.move();
-                notifyObservers();
+                if (timeLastChecked >= 2){
+                    notifyObservers();
+                    timeLastChecked = 0;
+                }
+                timeLastChecked++;
             }
         }
     }
@@ -82,8 +87,8 @@ public class CarModel implements IObservable {
     }
 
     void setTurboOff(){
-        for (ACar car : turboCars) {
-            ((Saab95) car).setTurboOff();
+        for (TurboCar car : turboCars) {
+            car.setTurboOff();
         }
     }
 
